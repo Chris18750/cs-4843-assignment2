@@ -43,7 +43,6 @@ Resources:
           yum install -y httpd
           systemctl start httpd          
       ImageId: !Ref AMItoUse
-      # ToDo: Change the key-pair name, as applicable to you. 
       KeyName: !Ref KeyName
       SecurityGroups:
       - Ref: WebServerSecGroup
