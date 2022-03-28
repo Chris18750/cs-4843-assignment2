@@ -5,7 +5,7 @@
 	},
     {
         "ParameterKey": "KeyName",
-        "ParameterValue": "cs4843Key"
+        "ParameterValue": "cs4843-key"
     },
     {
         "ParameterKey": "AMItoUse",
