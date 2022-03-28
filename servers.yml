@@ -1,0 +1,82 @@
+Resources:
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties: {}
+  PublicSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties: {}
+  PublicSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties: {}
+  PrivateSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties: {}
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties: {}
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties: {}
+  NatGateway1:
+    Type: 'AWS::EC2::NatGateway'
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+  NatGateway2:
+    Type: 'AWS::EC2::NatGateway'
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+  NetworkACL:
+    Type: 'AWS::EC2::NetworkAcl'
+    Properties: {}
+  WebServerLanuchConfig:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties: {}
+  AutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      VPCZoneIdentifier:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+  VPCAttactchment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+  LoadBalancerSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      VpcId: !Ref VPC
+  LoadBalancer:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    Properties:
+      SecurityGroups:
+        - !Ref LoadBalancerSecurityGroup
+      SubnetMappings:
+        - SubnetId: !Ref PublicSubnet1
+        - SubnetId: !Ref PublicSubnet2
+  EIP1:
+    Type: 'AWS::EC2::EIP'
+    Properties: {}
+  EIP2:
+    Type: 'AWS::EC2::EIP'
+    Properties: {}
+  ACLAssoc1:
+    Type: 'AWS::EC2::SubnetNetworkAclAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet1
+      NetworkAclId: !Ref NetworkACL
+  ACLAssoc2:
+    Type: 'AWS::EC2::SubnetNetworkAclAssociation'
+    Properties:
+      SubnetId: !Ref PublicSubnet2
+      NetworkAclId: !Ref NetworkACL
+  ACLAssoc3:
+    Type: 'AWS::EC2::SubnetNetworkAclAssociation'
+    Properties:
+      NetworkAclId: !Ref NetworkACL
+      SubnetId: !Ref PrivateSubnet1
+  ACLAssoc4:
+    Type: 'AWS::EC2::SubnetNetworkAclAssociation'
+    Properties:
+      NetworkAclId: !Ref NetworkACL
+      SubnetId: !Ref PrivateSubnet2
