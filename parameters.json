@@ -1,7 +1,7 @@
 [
 	{
 		"ParameterKey": "EnvironmentName",
-		"ParameterValue": "ScalableWebSRVProject"
+		"ParameterValue": "ScalableWebServer"
 	},
     {
         "ParameterKey": "KeyName",
